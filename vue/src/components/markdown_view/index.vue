@@ -15,10 +15,10 @@ export default {
     var bowl = new Bowl()
     console.log('bowl', bowl)
     bowl.add([
-      { url: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_HTML', key: 'script_mathjax' },
       { url: '/github-markdown.min.css', key: 'style_github_markdown' },
       // { url: '/katex.min.css', key: 'style_katex' },
       { url: '/highlight.default.min.css', key: 'style_highlight_default' },
+      { url: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_HTML', key: 'script_mathjax' },
     ])
     bowl.inject().then(() => {
       console.log('done')
