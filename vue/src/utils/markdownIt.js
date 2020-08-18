@@ -112,5 +112,5 @@
 //   })
 
 // injectLineNumber(markdown)
-import { markdown } from '../../public/bundle'
-export default markdown
+// import { markdown } from '../../public/bundle'
+// export default markdown

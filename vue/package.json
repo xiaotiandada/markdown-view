@@ -11,8 +11,8 @@
     "@matataki/editor": "1.3.12",
     "bowl.js": "0.1.4",
     "core-js": "^3.6.5",
-    "jquery": "3.5.1",
     "lodash": "4.17.20",
+    "markdown-render-js": "1.0.4",
     "vue": "^2.6.11"
   },
   "devDependencies": {

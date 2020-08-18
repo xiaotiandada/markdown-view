@@ -7,12 +7,9 @@
 
 <script>
 import markdownView from './components/markdown_view'
-import markdownIt from "./utils/markdownIt";
-// import { finishView } from './utils/extra'
 import $ from 'jquery'
-// import { markdown } from './utils/bundle.min.js'
-import { finishView } from '../public//bundle.js'
-
+import { markdown, finishView } from "markdown-render-js"
+console.log('md', markdown)
 export default {
   name: 'App',
   components: {
@@ -22,14 +19,16 @@ export default {
     return {
       content: '',
       content1: '',
-      content1Html: '',
+      content1Html: '',   
     }
   },
   mounted() {
+    window.$ = $
+
     this.content = window.localStorage.getItem('md')
     this.content1 = window.localStorage.getItem('md1')
 
-    this.content1Html = markdownIt.render(this.content1)
+    this.content1Html = markdown.render(this.content1)
 
     this.$nextTick(() => {
       this.finishViewContent()

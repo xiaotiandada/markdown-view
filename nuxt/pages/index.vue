@@ -1,61 +1,81 @@
 <template>
   <div class="container">
-    <markdown-view id="doc" :content="content1Html" class="container" />
+    <markdownView :content="content" class="container" id="doc"></markdownView>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-
 import markdownView from '@/components/markdown_view'
-import { markdown as markdownIt, finishView } from '../static/bundle.js'
+
+let markdown = null
+let finishView = null
+
+if (process.client) {
+  let md = require('markdown-render-js')
+
+  markdown = md.markdown
+  finishView = md.finishView 
+}
+
+// import { markdown } from "markdown-render-js"
+console.log('md', markdown, finishView)
+
+const markdownI = require('markdown-it')({
+  html: true,
+  breaks: true
+})
+// import $ from 'jquery'
 
 export default {
-  name: 'App',
-  components: {
-    markdownView
-  },
-  data () {
-    return {
-      content: '',
-      content1: '',
-      content1Html: ''
-    }
-  },
-  watch: {
-    content1 () {
-      // console.log('val', val)
-      // const markdownItEditor = this.$mavonEditor.markdownIt
-      // let md = markdownItEditor.render(val)
-
-      // window.localStorage.setItem('md', md)
-      // window.localStorage.setItem('md1', val)
-    }
-  },
-
-  mounted () {
-    // console.log('markdownIt', markdownIt)
-
-    this.content = window.localStorage.getItem('md')
-    this.content1 = window.localStorage.getItem('md1')
-
-    this.content1Html = markdownIt.render(this.content1)
-    // this.content1Html = this.content1
-
-    this.$nextTick(() => {
-      // this.finishViewContent()
-    })
-  },
-  methods: {
-    finishViewContent () {
-      finishView($('#doc'))
-    }
-  },
   head: {
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js' }
     ]
-  }
+  },
+  components: {
+    markdownView
+  },
+  async asyncData({ $axios }) {
+    const res = await $axios('https://apitest.smartsignature.io/post/ipfs/QmRddyav6FuVCwxKStJSroKj622QcNjqEa4P2m4aAhua38')
+    // console.log('res', res.data)
+    return {
+      content: res.data.data.content
+    }
+  },
+  data() {
+    return {
+      content: '',
+      content1: ''
+    }
+  },
+  created() {
+    if (process.browser) {
+      // console.log('content', this.content)
+      this.content = markdown.render(this.content)
+    } else {
+      this.content = markdownI.render(this.content)
+    }
+    
+
+  },
+  watch: {
+    content() {
+      this.$nextTick(() => {
+        if ($) {
+          finishView($('#doc'))
+        } else if (jQuery) {
+          finishView(jQuery('#doc'))
+        } else {
+          console.log('not $ jQuery')
+        }
+      })
+    }
+  },
+  mounted() {
+  
+
+  },
 }
 </script>
 

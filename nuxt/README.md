@@ -1,10 +1,8 @@
 # nuxt
 
-> My primo Nuxt.js project
-
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 
